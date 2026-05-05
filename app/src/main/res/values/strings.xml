@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Projet</string>
+    <string name="app_name">CovoiturageApp</string>
+    <string name="title_main">Accueil</string>
+    <string name="title_add_trip">Ajouter un trajet</string>
+    <string name="title_list_trip">Liste des trajets</string>
+    <string name="title_trip_details">Détails du trajet</string>
+    <string name="title_booking">Réserver</string>
 </resources>

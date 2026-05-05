@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Détails d'un trajet + actions (TP3 : intents implicites, TP5 : réservation)
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F4FF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Titre -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Détails du trajet"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#1565C0"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Carte d'informations -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="16dp"
+            android:layout_marginBottom="24dp">
+
+            <TextView
+                android:id="@+id/tvDetailDepart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textColor="#333333"
+                android:paddingBottom="10dp" />
+
+            <TextView
+                android:id="@+id/tvDetailDestination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textColor="#333333"
+                android:paddingBottom="10dp" />
+
+            <TextView
+                android:id="@+id/tvDetailDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textColor="#333333"
+                android:paddingBottom="10dp" />
+
+            <TextView
+                android:id="@+id/tvDetailPlaces"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textColor="#333333"
+                android:paddingBottom="10dp" />
+
+            <TextView
+                android:id="@+id/tvDetailType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textColor="#333333" />
+
+        </LinearLayout>
+
+        <!-- TP5 : Réserver (Intent bidirectionnel) -->
+        <Button
+            android:id="@+id/btnBook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🎫  Réserver ce trajet"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- TP3 : Google Maps -->
+        <Button
+            android:id="@+id/btnMaps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📍  Voir sur Google Maps"
+            android:textSize="15sp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- TP3 : SMS -->
+        <Button
+            android:id="@+id/btnSms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="💬  Contacter par SMS"
+            android:textSize="15sp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- TP3 : Partager -->
+        <Button
+            android:id="@+id/btnShare"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📤  Partager ce trajet"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+</ScrollView>
