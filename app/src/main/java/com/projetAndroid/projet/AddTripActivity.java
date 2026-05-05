@@ -79,8 +79,8 @@ public class AddTripActivity extends AppCompatActivity {
             Toast.makeText(this, "Veuillez sélectionner un type", Toast.LENGTH_SHORT).show();
             return;
         }
-        RadioButton selectedRadio = findViewById(selectedId);
-        String type = selectedRadio.getText().toString();
+        // Utiliser l'ID plutôt que le texte du bouton pour éviter de stocker les emojis
+        String type = (selectedId == R.id.rbConducteur) ? "Conducteur" : "Passager";
 
         // Convertir le nombre de places
         int places;
