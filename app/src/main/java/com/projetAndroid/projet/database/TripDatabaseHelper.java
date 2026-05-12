@@ -60,9 +60,7 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
     public long insertTrip(Trip trip) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = buildContentValues(trip);
-        long id = db.insert(TABLE_TRIPS, null, values);
-        db.close();
-        return id;
+        return db.insert(TABLE_TRIPS, null, values);
     }
 
     public List<Trip> getAllTrips() {
@@ -76,23 +74,18 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
             }
             cursor.close();
         }
-        db.close();
         return trips;
     }
 
     public int deleteTrip(long tripId) {
         SQLiteDatabase db = getWritableDatabase();
-        int deleted = db.delete(TABLE_TRIPS, COL_ID + "=?", new String[]{String.valueOf(tripId)});
-        db.close();
-        return deleted;
+        return db.delete(TABLE_TRIPS, COL_ID + "=?", new String[]{String.valueOf(tripId)});
     }
 
     public int updateTrip(Trip trip) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = buildContentValues(trip);
-        int updated = db.update(TABLE_TRIPS, values, COL_ID + "=?", new String[]{String.valueOf(trip.getId())});
-        db.close();
-        return updated;
+        return db.update(TABLE_TRIPS, values, COL_ID + "=?", new String[]{String.valueOf(trip.getId())});
     }
 
     public int getTotalTripsCount() {
@@ -103,7 +96,6 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
             count = cursor.getInt(0);
         }
         cursor.close();
-        db.close();
         return count;
     }
 

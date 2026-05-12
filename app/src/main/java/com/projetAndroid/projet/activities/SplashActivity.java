@@ -14,6 +14,8 @@ import com.projetAndroid.projet.R;
  */
 public class SplashActivity extends AppCompatActivity {
 
+    private static final long SPLASH_DURATION_MS = 1400L;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +25,6 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(new Intent(this, MainActivity.class));
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
-        }, 1400);
+        }, SPLASH_DURATION_MS);
     }
 }
