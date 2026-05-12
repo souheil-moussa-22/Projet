@@ -37,8 +37,10 @@ public class AddTripActivity extends AppCompatActivity {
     private Trip editingTrip;
 
     private static final String[] CITIES = {
-            "Casablanca", "Rabat", "Marrakech", "Fès", "Tanger", "Agadir",
-            "Meknès", "Oujda", "Kénitra", "Tétouan", "El Jadida"
+            "Tunis", "Ariana", "Ben Arous", "Mannouba", "Nabeul", "Zaghouan",
+            "Kef", "Jendouba", "Bizerte", "Sousse", "Mahdia" , "Monastir",
+            "Kairouan", "Sfax", "Gabes", "Gafsa", "Touzeur", "Kébili", "Médnine",
+            "Tataouine", "Kasserine", "Beja", "Siliana", "Sidi Bouzid"
     };
 
     @Override
