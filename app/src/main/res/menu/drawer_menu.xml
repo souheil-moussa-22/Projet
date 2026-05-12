@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_add_trip" android:title="@string/add_trip" />
+    <item android:id="@+id/nav_list_trips" android:title="@string/view_trips" />
+    <item android:id="@+id/nav_bookings" android:title="@string/my_bookings" />
+</menu>

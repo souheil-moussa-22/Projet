@@ -1,53 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    Écran de réservation.
-    TP5 : retourne RESULT_OK ou RESULT_CANCELED à TripDetailsActivity.
--->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:padding="32dp"
-    android:background="#F0F4FF">
+    android:background="@color/backgroundColor">
 
-    <!-- Titre -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="🎫 Réserver un trajet"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:textColor="#1565C0"
-        android:layout_marginBottom="32dp" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarBooking"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primaryColor"
+        app:title="@string/booking_title"
+        app:titleTextColor="@android:color/white" />
 
-    <!-- Résumé du trajet (rempli dynamiquement) -->
-    <TextView
-        android:id="@+id/tvBookingSummary"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="#333333"
-        android:padding="16dp"
-        android:background="#FFFFFF"
-        android:lineSpacingMultiplier="1.6"
-        android:layout_marginBottom="40dp" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <!-- Bouton Confirmer → retourne RESULT_OK (TP5) -->
-    <Button
-        android:id="@+id/btnConfirmBooking"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="✅  Confirmer la réservation"
-        android:textSize="16sp"
-        android:layout_marginBottom="12dp" />
+        <TextView
+            android:id="@+id/tvBookingSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:textStyle="bold" />
 
-    <!-- Bouton Annuler → retourne RESULT_CANCELED (TP5) -->
-    <Button
-        android:id="@+id/btnCancelBooking"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="❌  Annuler"
-        android:textSize="16sp" />
+        <EditText
+            android:id="@+id/etPassengerName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_passenger_name"
+            android:layout_marginBottom="10dp" />
+
+        <EditText
+            android:id="@+id/etPassengerPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_phone"
+            android:inputType="phone"
+            android:layout_marginBottom="10dp" />
+
+        <EditText
+            android:id="@+id/etBookedSeats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_booked_seats"
+            android:inputType="number"
+            android:layout_marginBottom="14dp" />
+
+        <Button
+            android:id="@+id/btnConfirmBooking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/confirm_booking" />
+    </LinearLayout>
 
 </LinearLayout>

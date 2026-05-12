@@ -1,112 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    Détails d'un trajet + actions (TP3 : intents implicites, TP5 : réservation)
--->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F4FF">
+    android:orientation="vertical"
+    android:background="@color/backgroundColor">
 
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarTripDetails"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primaryColor"
+        app:title="@string/trip_details_title"
+        app:titleTextColor="@android:color/white" />
 
-        <!-- Titre -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Détails du trajet"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="#1565C0"
-            android:layout_marginBottom="20dp" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <!-- Carte d'informations -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="#FFFFFF"
-            android:padding="16dp"
-            android:layout_marginBottom="24dp">
+            android:padding="16dp">
 
-            <TextView
-                android:id="@+id/tvDetailDepart"
+            <TextView android:id="@+id/tvDetailDepart" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6dp" />
+            <TextView android:id="@+id/tvDetailDestination" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6dp" />
+            <TextView android:id="@+id/tvDetailDate" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6dp" />
+            <TextView android:id="@+id/tvDetailPlaces" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6dp" />
+            <TextView android:id="@+id/tvDetailPrice" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6dp" />
+            <TextView android:id="@+id/tvDetailPhone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6dp" />
+            <TextView android:id="@+id/tvDetailVehicle" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6dp" />
+            <TextView android:id="@+id/tvDetailUserType" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" />
+
+            <Button
+                android:id="@+id/btnReserve"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="17sp"
-                android:textColor="#333333"
-                android:paddingBottom="10dp" />
+                android:text="@string/reserve" />
 
-            <TextView
-                android:id="@+id/tvDetailDestination"
+            <Button
+                android:id="@+id/btnOpenMaps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="17sp"
-                android:textColor="#333333"
-                android:paddingBottom="10dp" />
+                android:text="@string/open_maps"
+                android:layout_marginTop="8dp" />
 
-            <TextView
-                android:id="@+id/tvDetailDate"
+            <Button
+                android:id="@+id/btnSendSms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="17sp"
-                android:textColor="#333333"
-                android:paddingBottom="10dp" />
+                android:text="@string/send_sms"
+                android:layout_marginTop="8dp" />
 
-            <TextView
-                android:id="@+id/tvDetailPlaces"
+            <Button
+                android:id="@+id/btnShareTrip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="17sp"
-                android:textColor="#333333"
-                android:paddingBottom="10dp" />
+                android:text="@string/share_trip"
+                android:layout_marginTop="8dp" />
 
-            <TextView
-                android:id="@+id/tvDetailType"
+            <Button
+                android:id="@+id/btnEditTrip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="17sp"
-                android:textColor="#333333" />
+                android:text="@string/edit"
+                android:layout_marginTop="8dp" />
 
+            <Button
+                android:id="@+id/btnDeleteTrip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/delete"
+                android:layout_marginTop="8dp" />
         </LinearLayout>
+    </ScrollView>
 
-        <!-- TP5 : Réserver (Intent bidirectionnel) -->
-        <Button
-            android:id="@+id/btnBook"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="🎫  Réserver ce trajet"
-            android:textSize="16sp"
-            android:layout_marginBottom="12dp" />
-
-        <!-- TP3 : Google Maps -->
-        <Button
-            android:id="@+id/btnMaps"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="📍  Voir sur Google Maps"
-            android:textSize="15sp"
-            android:layout_marginBottom="12dp" />
-
-        <!-- TP3 : SMS -->
-        <Button
-            android:id="@+id/btnSms"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="💬  Contacter par SMS"
-            android:textSize="15sp"
-            android:layout_marginBottom="12dp" />
-
-        <!-- TP3 : Partager -->
-        <Button
-            android:id="@+id/btnShare"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="📤  Partager ce trajet"
-            android:textSize="15sp" />
-
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>
