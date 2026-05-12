@@ -1,8 +1,90 @@
 <resources>
-    <string name="app_name">CovoiturageApp</string>
-    <string name="title_main">Accueil</string>
-    <string name="title_add_trip">Ajouter un trajet</string>
-    <string name="title_list_trip">Liste des trajets</string>
-    <string name="title_trip_details">Détails du trajet</string>
-    <string name="title_booking">Réserver</string>
+    <string name="app_name">Covoiturage DS</string>
+
+    <string name="home_title">Accueil</string>
+    <string name="welcome_message">Bienvenue sur votre app de covoiturage</string>
+    <string name="total_trips_label">Nombre total de trajets : %1$d</string>
+
+    <string name="add_trip">Ajouter un trajet</string>
+    <string name="view_trips">Voir les trajets</string>
+    <string name="my_bookings">Mes réservations</string>
+
+    <string name="add_trip_title">Ajouter / Modifier un trajet</string>
+    <string name="list_trip_title">Liste des trajets</string>
+    <string name="trip_details_title">Détails du trajet</string>
+    <string name="booking_title">Réservation</string>
+
+    <string name="hint_depart">Ville de départ</string>
+    <string name="hint_destination">Ville d\'arrivée</string>
+    <string name="hint_date">Date (JJ/MM/AAAA)</string>
+    <string name="hint_price">Prix (DH)</string>
+    <string name="hint_places">Nombre de places</string>
+    <string name="hint_phone">Téléphone conducteur</string>
+    <string name="hint_passenger_name">Nom du passager</string>
+    <string name="hint_booked_seats">Nombre de places à réserver</string>
+
+    <string name="conducteur">Conducteur</string>
+    <string name="passager">Passager</string>
+    <string name="save_trip">Enregistrer le trajet</string>
+
+    <string name="error_required_fields">Tous les champs sont obligatoires.</string>
+    <string name="error_invalid_date">Date invalide (format attendu : JJ/MM/AAAA).</string>
+    <string name="error_invalid_price">Prix invalide.</string>
+    <string name="error_invalid_places">Nombre de places invalide.</string>
+    <string name="error_invalid_phone">Téléphone invalide.</string>
+
+    <string name="trip_added_success">Trajet enregistré avec succès.</string>
+    <string name="trip_add_failed">Erreur lors de l\'ajout du trajet.</string>
+    <string name="trip_updated_success">Trajet modifié avec succès.</string>
+    <string name="trip_update_failed">Erreur lors de la modification du trajet.</string>
+    <string name="trip_deleted_success">Trajet supprimé.</string>
+
+    <string name="search_hint">Rechercher un trajet...</string>
+    <string name="filter_all_cities">Toutes les villes</string>
+    <string name="no_trip_found">Aucun trajet trouvé.</string>
+
+    <string name="detail_depart">Départ : %1$s</string>
+    <string name="detail_destination">Destination : %1$s</string>
+    <string name="detail_date">Date : %1$s</string>
+    <string name="detail_places">Places : %1$d</string>
+    <string name="detail_price">Prix : %1$s DH</string>
+    <string name="detail_phone">Téléphone : %1$s</string>
+    <string name="detail_vehicle">Véhicule : %1$s</string>
+    <string name="detail_user_type">Type utilisateur : %1$s</string>
+
+    <string name="reserve">Réserver</string>
+    <string name="open_maps">Ouvrir Maps</string>
+    <string name="send_sms">Envoyer SMS</string>
+    <string name="share_trip">Partager trajet</string>
+
+    <string name="sms_template">Bonjour, je suis intéressé par votre trajet %1$s - %2$s le %3$s.</string>
+    <string name="share_template">Trajet covoiturage : %1$s ➜ %2$s | Date : %3$s | Places : %4$d | Prix : %5$s DH</string>
+
+    <string name="booking_summary">Trajet : %1$s ➜ %2$s\nDate : %3$s\nPlaces disponibles : %4$d</string>
+    <string name="confirm_booking">Confirmer la réservation</string>
+    <string name="booking_confirmation">Réservation confirmée pour %1$s (%2$s ➜ %3$s).</string>
+    <string name="booking_validation_error">Vérifiez les informations de réservation.</string>
+    <string name="booking_seats_error">Le nombre de places demandé dépasse les places disponibles.</string>
+    <string name="no_booking">Aucune réservation enregistrée.</string>
+
+    <string name="delete_trip_title">Supprimer le trajet</string>
+    <string name="delete_trip_message">Voulez-vous vraiment supprimer ce trajet ?</string>
+    <string name="delete">Supprimer</string>
+    <string name="cancel">Annuler</string>
+    <string name="edit">Modifier</string>
+
+    <string name="no_maps_app">Aucune application de cartographie trouvée.</string>
+    <string name="no_sms_app">Aucune application SMS trouvée.</string>
+    <string name="trip_not_found">Trajet introuvable.</string>
+
+    <string name="drawer_open">Ouvrir le menu</string>
+    <string name="drawer_close">Fermer le menu</string>
+
+    <string-array name="vehicle_types">
+        <item>Citadine</item>
+        <item>Berline</item>
+        <item>SUV</item>
+        <item>Van</item>
+        <item>Motocyclette</item>
+    </string-array>
 </resources>
