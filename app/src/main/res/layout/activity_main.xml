@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -42,25 +44,41 @@
                 android:textColor="@color/textSecondary"
                 android:layout_marginBottom="24dp" />
 
+            <!-- Conducteur uniquement -->
             <Button
                 android:id="@+id/btnAddTrip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/add_trip"
+                android:visibility="gone"
                 android:layout_marginBottom="12dp" />
 
+            <!-- Conducteur uniquement -->
+            <Button
+                android:id="@+id/btnMyTrips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/my_trips"
+                android:visibility="gone"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Passager uniquement -->
             <Button
                 android:id="@+id/btnListTrips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/view_trips"
+                android:visibility="gone"
                 android:layout_marginBottom="12dp" />
 
+            <!-- Les deux rôles -->
             <Button
                 android:id="@+id/btnMyBookings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/my_bookings" />
+                android:text="@string/my_bookings"
+                android:visibility="gone" />
+
         </LinearLayout>
     </LinearLayout>
 

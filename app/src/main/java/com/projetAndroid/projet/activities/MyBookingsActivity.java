@@ -1,6 +1,7 @@
 package com.projetAndroid.projet.activities;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -9,13 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.projetAndroid.projet.R;
-import com.projetAndroid.projet.utils.BookingStorage;
+import com.projetAndroid.projet.database.TripDatabaseHelper;
+import com.projetAndroid.projet.utils.SessionManager;
 
 import java.util.List;
 
-/**
- * Écran simple listant les réservations enregistrées localement.
- */
 public class MyBookingsActivity extends AppCompatActivity {
 
     @Override
@@ -30,13 +29,34 @@ public class MyBookingsActivity extends AppCompatActivity {
         }
 
         ListView listView = findViewById(R.id.listBookings);
-        TextView tvEmpty = findViewById(R.id.tvEmptyBookings);
+        TextView tvEmpty  = findViewById(R.id.tvEmptyBookings);
 
-        List<String> bookings = BookingStorage.getBookings(this);
-        if (bookings.isEmpty()) {
-            tvEmpty.setVisibility(android.view.View.VISIBLE);
+        TripDatabaseHelper dbHelper = new TripDatabaseHelper(this);
+        SessionManager session      = new SessionManager(this);
+        String username             = session.getUsername();
+        String userType             = session.getUserType();
+
+        List<String> bookings;
+        if ("Conducteur".equalsIgnoreCase(userType)) {
+            // Conducteur : voir les réservations faites sur ses trajets
+            bookings = dbHelper.getBookingsForDriver(username);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle("Réservations reçues");
+            }
         } else {
-            tvEmpty.setVisibility(android.view.View.GONE);
+            // Passager : voir ses propres réservations
+            bookings = dbHelper.getBookingsByUser(username);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle("Mes réservations");
+            }
+        }
+
+        if (bookings.isEmpty()) {
+            tvEmpty.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.GONE);
+        } else {
+            tvEmpty.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     this,
                     android.R.layout.simple_list_item_1,

@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/nav_add_trip" android:title="@string/add_trip" />
-    <item android:id="@+id/nav_list_trips" android:title="@string/view_trips" />
-    <item android:id="@+id/nav_bookings" android:title="@string/my_bookings" />
+
+    <!-- Conducteur uniquement -->
+    <item
+        android:id="@+id/nav_add_trip"
+        android:title="@string/add_trip"
+        android:visible="false" />
+
+    <!-- Conducteur uniquement -->
+    <item
+        android:id="@+id/nav_my_trips"
+        android:title="@string/my_trips"
+        android:visible="false" />
+
+    <!-- Passager uniquement -->
+    <item
+        android:id="@+id/nav_list_trips"
+        android:title="@string/view_trips"
+        android:visible="false" />
+
+    <!-- Les deux rôles -->
+    <item
+        android:id="@+id/nav_bookings"
+        android:title="@string/my_bookings" />
+
 </menu>

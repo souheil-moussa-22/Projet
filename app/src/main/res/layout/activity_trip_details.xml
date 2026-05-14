@@ -24,21 +24,63 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <TextView android:id="@+id/tvDetailDepart" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6dp" />
-            <TextView android:id="@+id/tvDetailDestination" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6dp" />
-            <TextView android:id="@+id/tvDetailDate" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6dp" />
-            <TextView android:id="@+id/tvDetailPlaces" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6dp" />
-            <TextView android:id="@+id/tvDetailPrice" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6dp" />
-            <TextView android:id="@+id/tvDetailPhone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6dp" />
-            <TextView android:id="@+id/tvDetailVehicle" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="6dp" />
-            <TextView android:id="@+id/tvDetailUserType" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" />
+            <TextView
+                android:id="@+id/tvDetailDepart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp" />
 
+            <TextView
+                android:id="@+id/tvDetailDestination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:id="@+id/tvDetailDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:id="@+id/tvDetailPlaces"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:id="@+id/tvDetailPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:id="@+id/tvDetailPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:id="@+id/tvDetailVehicle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:id="@+id/tvDetailUserType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Passager uniquement -->
             <Button
                 android:id="@+id/btnReserve"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/reserve" />
+                android:text="@string/reserve"
+                android:visibility="gone" />
 
+            <!-- Tous les rôles -->
             <Button
                 android:id="@+id/btnOpenMaps"
                 android:layout_width="match_parent"
@@ -60,19 +102,24 @@
                 android:text="@string/share_trip"
                 android:layout_marginTop="8dp" />
 
+            <!-- Conducteur uniquement -->
             <Button
                 android:id="@+id/btnEditTrip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/edit"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:visibility="gone" />
 
+            <!-- Conducteur uniquement -->
             <Button
                 android:id="@+id/btnDeleteTrip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/delete"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:visibility="gone" />
+
         </LinearLayout>
     </ScrollView>
 

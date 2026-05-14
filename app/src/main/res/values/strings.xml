@@ -8,7 +8,9 @@
     <string name="add_trip">Ajouter un trajet</string>
     <string name="view_trips">Voir les trajets</string>
     <string name="my_bookings">Mes réservations</string>
-
+    <string name="my_trips">Mes trajets</string>
+    <string name="my_trips_title">Mes trajets</string>
+    <string name="list_trips_title">Tous les trajets</string>
     <string name="add_trip_title">Ajouter / Modifier un trajet</string>
     <string name="list_trip_title">Liste des trajets</string>
     <string name="trip_details_title">Détails du trajet</string>

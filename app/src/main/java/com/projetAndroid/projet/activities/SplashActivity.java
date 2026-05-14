@@ -8,10 +8,8 @@ import android.os.Looper;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.projetAndroid.projet.R;
+import com.projetAndroid.projet.utils.SessionManager;
 
-/**
- * Splash screen simple (bonus) avec transition vers MainActivity.
- */
 public class SplashActivity extends AppCompatActivity {
 
     private static final long SPLASH_DURATION_MS = 1400L;
@@ -22,7 +20,14 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            startActivity(new Intent(this, MainActivity.class));
+            SessionManager session = new SessionManager(this);
+            Intent intent;
+            if (session.isLoggedIn()) {
+                intent = new Intent(this, MainActivity.class);
+            } else {
+                intent = new Intent(this, LoginActivity.class);
+            }
+            startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
         }, SPLASH_DURATION_MS);

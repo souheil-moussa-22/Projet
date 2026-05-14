@@ -2,6 +2,7 @@ package com.projetAndroid.projet.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -16,10 +17,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.projetAndroid.projet.R;
 import com.projetAndroid.projet.database.TripDatabaseHelper;
+import com.projetAndroid.projet.utils.SessionManager;
 
-/**
- * Accueil avec Toolbar, Drawer, boutons de navigation et statistique des trajets.
- */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
@@ -42,21 +41,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar,
-                R.string.drawer_open,
-                R.string.drawer_close
-        );
+                R.string.drawer_open, R.string.drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         tvStats = findViewById(R.id.tvMainStats);
 
-        Button btnAddTrip = findViewById(R.id.btnAddTrip);
-        Button btnListTrips = findViewById(R.id.btnListTrips);
+        Button btnAddTrip    = findViewById(R.id.btnAddTrip);
+        Button btnListTrips  = findViewById(R.id.btnListTrips);
         Button btnMyBookings = findViewById(R.id.btnMyBookings);
+        Button btnMyTrips    = findViewById(R.id.btnMyTrips);
 
-        btnAddTrip.setOnClickListener(v -> openAddTrip());
-        btnListTrips.setOnClickListener(v -> openListTrips());
-        btnMyBookings.setOnClickListener(v -> openMyBookings());
+        SessionManager session = new SessionManager(this);
+        String userType = session.getUserType();
+        boolean isConducteur = "Conducteur".equalsIgnoreCase(userType);
+
+        if (isConducteur) {
+            btnAddTrip.setVisibility(View.VISIBLE);
+            btnMyTrips.setVisibility(View.VISIBLE);
+            btnListTrips.setVisibility(View.GONE);
+            btnMyBookings.setVisibility(View.VISIBLE);
+
+            btnAddTrip.setOnClickListener(v -> openAddTrip());
+            btnMyTrips.setOnClickListener(v -> openMyTrips());
+            btnMyBookings.setOnClickListener(v -> openMyBookings());
+        } else {
+            btnAddTrip.setVisibility(View.GONE);
+            btnMyTrips.setVisibility(View.GONE);
+            btnListTrips.setVisibility(View.VISIBLE);
+            btnMyBookings.setVisibility(View.VISIBLE);
+
+            btnListTrips.setOnClickListener(v -> openListTrips());
+            btnMyBookings.setOnClickListener(v -> openMyBookings());
+        }
+
+        updateDrawerMenu(navigationView.getMenu(), isConducteur);
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -70,6 +89,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
+    }
+
+    private void updateDrawerMenu(android.view.Menu menu, boolean isConducteur) {
+        menu.findItem(R.id.nav_add_trip).setVisible(isConducteur);
+        menu.findItem(R.id.nav_my_trips).setVisible(isConducteur);
+        menu.findItem(R.id.nav_list_trips).setVisible(!isConducteur);
+        menu.findItem(R.id.nav_bookings).setVisible(true);
     }
 
     @Override
@@ -88,6 +114,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
+    private void openMyTrips() {
+        Intent intent = new Intent(this, ListTripActivity.class);
+        intent.putExtra(ListTripActivity.EXTRA_OWNER_ONLY, true);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
     private void openMyBookings() {
         startActivity(new Intent(this, MyBookingsActivity.class));
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -95,16 +128,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull android.view.MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.nav_add_trip) {
-            openAddTrip();
-        } else if (itemId == R.id.nav_list_trips) {
-            openListTrips();
-        } else if (itemId == R.id.nav_bookings) {
-            openMyBookings();
-        }
+        int id = item.getItemId();
+        if      (id == R.id.nav_add_trip)   openAddTrip();
+        else if (id == R.id.nav_my_trips)   openMyTrips();
+        else if (id == R.id.nav_list_trips) openListTrips();
+        else if (id == R.id.nav_bookings)   openMyBookings();
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

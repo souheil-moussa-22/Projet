@@ -21,15 +21,15 @@ import com.projetAndroid.projet.R;
 import com.projetAndroid.projet.adapters.TripAdapter;
 import com.projetAndroid.projet.database.TripDatabaseHelper;
 import com.projetAndroid.projet.models.Trip;
+import com.projetAndroid.projet.utils.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Liste des trajets via RecyclerView + recherche + filtre ville + état vide.
- */
 public class ListTripActivity extends AppCompatActivity implements TripAdapter.OnTripActionListener {
+
+    public static final String EXTRA_OWNER_ONLY = "extra_owner_only";
 
     private TripDatabaseHelper dbHelper;
     private TripAdapter adapter;
@@ -38,6 +38,7 @@ public class ListTripActivity extends AppCompatActivity implements TripAdapter.O
     private EditText etSearch;
     private Spinner spinnerFilterCity;
     private TextView tvEmpty;
+    private boolean ownerOnly;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,24 +46,29 @@ public class ListTripActivity extends AppCompatActivity implements TripAdapter.O
         setContentView(R.layout.activity_list_trip);
 
         dbHelper = new TripDatabaseHelper(this);
+        ownerOnly = getIntent().getBooleanExtra(EXTRA_OWNER_ONLY, false);
 
         Toolbar toolbar = findViewById(R.id.toolbarListTrip);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(ownerOnly
+                    ? getString(R.string.my_trips_title)
+                    : getString(R.string.list_trips_title));
         }
 
-        etSearch = findViewById(R.id.etSearchTrips);
+        etSearch          = findViewById(R.id.etSearchTrips);
         spinnerFilterCity = findViewById(R.id.spinnerFilterCity);
-        tvEmpty = findViewById(R.id.tvEmptyList);
+        tvEmpty           = findViewById(R.id.tvEmptyList);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerTrips);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         adapter = new TripAdapter(this);
         recyclerView.setAdapter(adapter);
 
         FloatingActionButton fabAddTrip = findViewById(R.id.fabAddTrip);
+        // Le FAB n'est visible que pour le conducteur en mode "mes trajets"
+        fabAddTrip.setVisibility(ownerOnly ? android.view.View.VISIBLE : android.view.View.GONE);
         fabAddTrip.setOnClickListener(v -> {
             startActivity(new Intent(this, AddTripActivity.class));
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -79,9 +85,7 @@ public class ListTripActivity extends AppCompatActivity implements TripAdapter.O
             public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
                 applyFilters();
             }
-
-            @Override
-            public void onNothingSelected(android.widget.AdapterView<?> parent) { }
+            @Override public void onNothingSelected(android.widget.AdapterView<?> parent) { }
         });
     }
 
@@ -93,7 +97,12 @@ public class ListTripActivity extends AppCompatActivity implements TripAdapter.O
 
     private void loadTrips() {
         allTrips.clear();
-        allTrips.addAll(dbHelper.getAllTrips());
+        if (ownerOnly) {
+            String username = new SessionManager(this).getUsername();
+            allTrips.addAll(dbHelper.getTripsByOwner(username));
+        } else {
+            allTrips.addAll(dbHelper.getAllTrips());
+        }
         setupCityFilter(allTrips);
         applyFilters();
     }
@@ -106,12 +115,8 @@ public class ListTripActivity extends AppCompatActivity implements TripAdapter.O
                 cities.add(trip.getDepart());
             }
         }
-
         ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                cities
-        );
+                this, android.R.layout.simple_spinner_item, cities);
         cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFilterCity.setAdapter(cityAdapter);
     }
@@ -132,9 +137,7 @@ public class ListTripActivity extends AppCompatActivity implements TripAdapter.O
             boolean matchesCity = selectedCity.equals(getString(R.string.filter_all_cities))
                     || trip.getDepart().equalsIgnoreCase(selectedCity);
 
-            if (matchesQuery && matchesCity) {
-                filtered.add(trip);
-            }
+            if (matchesQuery && matchesCity) filtered.add(trip);
         }
 
         adapter.submitList(filtered);

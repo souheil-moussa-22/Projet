@@ -11,24 +11,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.projetAndroid.projet.R;
+import com.projetAndroid.projet.database.TripDatabaseHelper;
 import com.projetAndroid.projet.models.Trip;
-import com.projetAndroid.projet.utils.BookingStorage;
+import com.projetAndroid.projet.utils.SessionManager;
 import com.projetAndroid.projet.utils.ValidationUtils;
 
-/**
- * Écran de réservation avec retour de données vers TripDetailsActivity.
- */
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class BookingActivity extends AppCompatActivity {
 
     public static final String EXTRA_TRIP = "extra_trip";
     public static final String EXTRA_CONFIRMATION = "extra_confirmation";
 
     private Trip trip;
+    private TripDatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
+
+        dbHelper = new TripDatabaseHelper(this);
 
         Toolbar toolbar = findViewById(R.id.toolbarBooking);
         setSupportActionBar(toolbar);
@@ -43,19 +48,19 @@ public class BookingActivity extends AppCompatActivity {
             return;
         }
 
-        TextView tvSummary = findViewById(R.id.tvBookingSummary);
-        EditText etPassengerName = findViewById(R.id.etPassengerName);
+        TextView tvSummary       = findViewById(R.id.tvBookingSummary);
+        EditText etPassengerName  = findViewById(R.id.etPassengerName);
         EditText etPassengerPhone = findViewById(R.id.etPassengerPhone);
-        EditText etBookedSeats = findViewById(R.id.etBookedSeats);
-        Button btnConfirm = findViewById(R.id.btnConfirmBooking);
+        EditText etBookedSeats    = findViewById(R.id.etBookedSeats);
+        Button btnConfirm         = findViewById(R.id.btnConfirmBooking);
 
         tvSummary.setText(getString(R.string.booking_summary,
                 trip.getDepart(), trip.getDestination(), trip.getDate(), trip.getPlaces()));
 
         btnConfirm.setOnClickListener(v -> {
-            String passengerName = etPassengerName.getText().toString().trim();
+            String passengerName  = etPassengerName.getText().toString().trim();
             String passengerPhone = etPassengerPhone.getText().toString().trim();
-            String seatsText = etBookedSeats.getText().toString().trim();
+            String seatsText      = etBookedSeats.getText().toString().trim();
 
             if (!ValidationUtils.isNotBlank(passengerName)
                     || !ValidationUtils.isValidPhone(passengerPhone)
@@ -70,10 +75,30 @@ public class BookingActivity extends AppCompatActivity {
                 return;
             }
 
+            // Date du jour de la réservation
+            String bookingDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                    .format(new Date());
+
+            // Username du passager connecté
+            String username = new SessionManager(this).getUsername();
+
+            // Insertion en base de données
+            long id = dbHelper.insertBooking(
+                    trip.getId(),
+                    username,
+                    passengerName,
+                    passengerPhone,
+                    requestedSeats,
+                    bookingDate
+            );
+
+            if (id <= 0) {
+                Toast.makeText(this, "Erreur lors de la réservation", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             String confirmation = getString(R.string.booking_confirmation,
                     passengerName, trip.getDepart(), trip.getDestination());
-
-            BookingStorage.saveBooking(this, confirmation + " - " + trip.getDate());
 
             Intent data = new Intent();
             data.putExtra(EXTRA_CONFIRMATION, confirmation);

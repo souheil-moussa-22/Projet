@@ -16,7 +16,7 @@ import com.projetAndroid.projet.R;
 import com.projetAndroid.projet.database.TripDatabaseHelper;
 import com.projetAndroid.projet.models.Trip;
 import com.projetAndroid.projet.utils.ValidationUtils;
-
+import com.projetAndroid.projet.utils.SessionManager;
 /**
  * Formulaire complet d'ajout/modification de trajet avec validations avancées.
  */
@@ -174,7 +174,9 @@ public class AddTripActivity extends AppCompatActivity {
                 Toast.makeText(this, R.string.trip_update_failed, Toast.LENGTH_SHORT).show();
             }
         } else {
-            long id = dbHelper.insertTrip(trip);
+            // ← Ajouter le owner ici
+            String owner = new SessionManager(this).getUsername();
+            long id = dbHelper.insertTrip(trip, owner);
             if (id > 0) {
                 Toast.makeText(this, R.string.trip_added_success, Toast.LENGTH_SHORT).show();
                 finish();
@@ -183,7 +185,6 @@ public class AddTripActivity extends AppCompatActivity {
             }
         }
     }
-
     @Override
     public boolean onSupportNavigateUp() {
         finish();
