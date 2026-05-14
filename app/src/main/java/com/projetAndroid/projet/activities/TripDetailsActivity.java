@@ -39,6 +39,10 @@ public class TripDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_trip_details);
 
         dbHelper = new TripDatabaseHelper(this);
+        if (!new SessionManager(this).isLoggedIn()) {
+            redirectToLogin();
+            return;
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbarTripDetails);
         setSupportActionBar(toolbar);
@@ -57,7 +61,6 @@ public class TripDetailsActivity extends AppCompatActivity {
 
         Button btnReserve   = findViewById(R.id.btnReserve);
         Button btnOpenMaps  = findViewById(R.id.btnOpenMaps);
-        Button btnSendSms   = findViewById(R.id.btnSendSms);
         Button btnShareTrip = findViewById(R.id.btnShareTrip);
         Button btnEditTrip  = findViewById(R.id.btnEditTrip);
         Button btnDeleteTrip= findViewById(R.id.btnDeleteTrip);
@@ -80,7 +83,6 @@ public class TripDetailsActivity extends AppCompatActivity {
 
         btnReserve.setOnClickListener(v -> openBooking());
         btnOpenMaps.setOnClickListener(v -> openMaps());
-        btnSendSms.setOnClickListener(v -> sendSms());
         btnShareTrip.setOnClickListener(v -> shareTrip());
         btnEditTrip.setOnClickListener(v -> editTrip());
         btnDeleteTrip.setOnClickListener(v -> deleteTrip());
@@ -139,19 +141,6 @@ public class TripDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void sendSms() {
-        String body = getString(R.string.sms_template,
-                trip.getDepart(), trip.getDestination(), trip.getDate());
-        Intent smsIntent = new Intent(Intent.ACTION_SENDTO);
-        smsIntent.setData(Uri.parse("smsto:" + trip.getPhone()));
-        smsIntent.putExtra("sms_body", body);
-        if (smsIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(smsIntent);
-        } else {
-            Toast.makeText(this, R.string.no_sms_app, Toast.LENGTH_SHORT).show();
-        }
-    }
-
     private void shareTrip() {
         String text = getString(R.string.share_template,
                 trip.getDepart(), trip.getDestination(), trip.getDate(),
@@ -189,5 +178,12 @@ public class TripDetailsActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+
+    private void redirectToLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }

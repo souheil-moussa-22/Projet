@@ -1,5 +1,6 @@
 package com.projetAndroid.projet.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,6 +22,10 @@ public class MyBookingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_bookings);
+        if (!new SessionManager(this).isLoggedIn()) {
+            redirectToLogin();
+            return;
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbarBookings);
         setSupportActionBar(toolbar);
@@ -70,5 +75,12 @@ public class MyBookingsActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+
+    private void redirectToLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }

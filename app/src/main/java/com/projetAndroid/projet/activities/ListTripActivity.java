@@ -44,6 +44,10 @@ public class ListTripActivity extends AppCompatActivity implements TripAdapter.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_trip);
+        if (!new SessionManager(this).isLoggedIn()) {
+            redirectToLogin();
+            return;
+        }
 
         dbHelper = new TripDatabaseHelper(this);
         ownerOnly = getIntent().getBooleanExtra(EXTRA_OWNER_ONLY, false);
@@ -180,5 +184,12 @@ public class ListTripActivity extends AppCompatActivity implements TripAdapter.O
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+
+    private void redirectToLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }
