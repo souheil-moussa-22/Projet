@@ -32,6 +32,10 @@ public class BookingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
+        if (!new SessionManager(this).isLoggedIn()) {
+            redirectToLogin();
+            return;
+        }
 
         dbHelper = new TripDatabaseHelper(this);
 
@@ -112,5 +116,12 @@ public class BookingActivity extends AppCompatActivity {
         setResult(RESULT_CANCELED);
         finish();
         return true;
+    }
+
+    private void redirectToLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }

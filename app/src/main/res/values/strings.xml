@@ -19,7 +19,7 @@
     <string name="hint_depart">Ville de départ</string>
     <string name="hint_destination">Ville d\'arrivée</string>
     <string name="hint_date">Date (JJ/MM/AAAA)</string>
-    <string name="hint_price">Prix (DH)</string>
+    <string name="hint_price">Prix (TND)</string>
     <string name="hint_places">Nombre de places</string>
     <string name="hint_phone">Téléphone conducteur</string>
     <string name="hint_passenger_name">Nom du passager</string>
@@ -49,18 +49,17 @@
     <string name="detail_destination">Destination : %1$s</string>
     <string name="detail_date">Date : %1$s</string>
     <string name="detail_places">Places : %1$d</string>
-    <string name="detail_price">Prix : %1$s DH</string>
+    <string name="detail_price">Prix : %1$s TND</string>
     <string name="detail_phone">Téléphone : %1$s</string>
     <string name="detail_vehicle">Véhicule : %1$s</string>
     <string name="detail_user_type">Type utilisateur : %1$s</string>
 
     <string name="reserve">Réserver</string>
     <string name="open_maps">Ouvrir Maps</string>
-    <string name="send_sms">Envoyer SMS</string>
     <string name="share_trip">Partager trajet</string>
+    <string name="logout">Logout</string>
 
-    <string name="sms_template">Bonjour, je suis intéressé par votre trajet %1$s - %2$s le %3$s.</string>
-    <string name="share_template">Trajet covoiturage : %1$s ➜ %2$s | Date : %3$s | Places : %4$d | Prix : %5$s DH</string>
+    <string name="share_template">Trajet covoiturage : %1$s ➜ %2$s | Date : %3$s | Places : %4$d | Prix : %5$s TND</string>
 
     <string name="booking_summary">Trajet : %1$s ➜ %2$s\nDate : %3$s\nPlaces disponibles : %4$d</string>
     <string name="confirm_booking">Confirmer la réservation</string>
@@ -76,7 +75,6 @@
     <string name="edit">Modifier</string>
 
     <string name="no_maps_app">Aucune application de cartographie trouvée.</string>
-    <string name="no_sms_app">Aucune application SMS trouvée.</string>
     <string name="trip_not_found">Trajet introuvable.</string>
 
     <string name="drawer_open">Ouvrir le menu</string>

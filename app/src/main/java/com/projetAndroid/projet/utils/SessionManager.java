@@ -34,7 +34,11 @@ public class SessionManager {
         return getUsername() != null;
     }
 
-    public void logout(Context context) {
+    public void logout() {
+        clearSession();
+    }
+
+    public void clearSession() {
         prefs.edit().clear().apply();
     }
 }

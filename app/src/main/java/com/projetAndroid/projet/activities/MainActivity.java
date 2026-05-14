@@ -31,6 +31,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         dbHelper = new TripDatabaseHelper(this);
+        SessionManager session = new SessionManager(this);
+        if (!session.isLoggedIn()) {
+            redirectToLogin();
+            return;
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
@@ -51,8 +56,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Button btnListTrips  = findViewById(R.id.btnListTrips);
         Button btnMyBookings = findViewById(R.id.btnMyBookings);
         Button btnMyTrips    = findViewById(R.id.btnMyTrips);
+        Button btnLogout     = findViewById(R.id.btnLogout);
 
-        SessionManager session = new SessionManager(this);
         String userType = session.getUserType();
         boolean isConducteur = "Conducteur".equalsIgnoreCase(userType);
 
@@ -76,6 +81,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         updateDrawerMenu(navigationView.getMenu(), isConducteur);
+        btnLogout.setOnClickListener(v -> {
+            session.logout();
+            redirectToLogin();
+        });
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -135,5 +144,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if (id == R.id.nav_bookings)   openMyBookings();
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void redirectToLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }
