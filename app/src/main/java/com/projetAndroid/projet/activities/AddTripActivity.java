@@ -104,7 +104,7 @@ public class AddTripActivity extends AppCompatActivity {
         etDestination.setText(trip.getDestination());
         etDate.setText(trip.getDate());
         etPrice.setText(String.valueOf(trip.getPrix()));
-        etPlaces.setText(String.valueOf(trip.getPlaces()));
+        etPlaces.setText(String.valueOf(trip.getTotalPlaces()));
         etPhone.setText(trip.getPhone());
 
         if ("Conducteur".equalsIgnoreCase(trip.getUserType())) {
@@ -163,14 +163,20 @@ public class AddTripActivity extends AppCompatActivity {
         String userType = rgUserType.getCheckedRadioButtonId() == R.id.rbConducteur
                 ? "Conducteur" : "Passager";
         String vehicleType = spinnerVehicle.getSelectedItem().toString();
+        int totalPlaces = Integer.parseInt(placesText);
 
         Trip trip = new Trip(depart, destination, date,
-                Integer.parseInt(placesText),
+                totalPlaces,
                 Double.parseDouble(priceText),
                 phone, vehicleType, userType);
 
         if (editingTrip != null) {
             trip.setId(editingTrip.getId());
+            // Conserver les places déjà réservées lors d'une modification.
+            int alreadyBooked = editingTrip.getTotalPlaces() - editingTrip.getAvailablePlaces();
+            int newAvailablePlaces = Math.max(0, totalPlaces - alreadyBooked);
+            trip.setTotalPlaces(totalPlaces);
+            trip.setAvailablePlaces(newAvailablePlaces);
             int updated = dbHelper.updateTrip(trip);
             if (updated > 0) {
                 Toast.makeText(this, R.string.trip_updated_success, Toast.LENGTH_SHORT).show();
@@ -179,6 +185,7 @@ public class AddTripActivity extends AppCompatActivity {
                 Toast.makeText(this, R.string.trip_update_failed, Toast.LENGTH_SHORT).show();
             }
         } else {
+            trip.setAvailablePlaces(totalPlaces);
             // ← Ajouter le owner ici
             String owner = new SessionManager(this).getUsername();
             long id = dbHelper.insertTrip(trip, owner);

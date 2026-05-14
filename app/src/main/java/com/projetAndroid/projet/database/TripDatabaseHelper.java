@@ -14,14 +14,15 @@ import java.util.List;
 public class TripDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME    = "covoiturage.db";
-    public static final int    DATABASE_VERSION = 4;
+    public static final int    DATABASE_VERSION = 5;
 
     public static final String TABLE_TRIPS       = "trips";
     public static final String COL_ID            = "id";
     public static final String COL_DEPART        = "depart";
     public static final String COL_DESTINATION   = "destination";
     public static final String COL_DATE          = "date";
-    public static final String COL_PLACES        = "places";
+    public static final String COL_TOTAL_PLACES     = "total_places";
+    public static final String COL_AVAILABLE_PLACES = "available_places";
     public static final String COL_PRIX          = "prix";
     public static final String COL_PHONE         = "phone";
     public static final String COL_VEHICLE_TYPE  = "vehicle_type";
@@ -52,7 +53,8 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
                 + COL_DEPART       + " TEXT NOT NULL, "
                 + COL_DESTINATION  + " TEXT NOT NULL, "
                 + COL_DATE         + " TEXT NOT NULL, "
-                + COL_PLACES       + " INTEGER NOT NULL, "
+                + COL_TOTAL_PLACES     + " INTEGER NOT NULL, "
+                + COL_AVAILABLE_PLACES + " INTEGER NOT NULL, "
                 + COL_PRIX         + " REAL NOT NULL, "
                 + COL_PHONE        + " TEXT NOT NULL, "
                 + COL_VEHICLE_TYPE + " TEXT NOT NULL, "
@@ -91,6 +93,9 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
     public long insertTrip(Trip trip, String ownerUsername) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = buildContentValues(trip);
+        if (trip.getAvailablePlaces() <= 0) {
+            values.put(COL_AVAILABLE_PLACES, trip.getTotalPlaces());
+        }
         values.put(COL_OWNER, ownerUsername);
         return db.insert(TABLE_TRIPS, null, values);
     }
@@ -123,6 +128,28 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         return db.update(TABLE_TRIPS, buildContentValues(trip),
                 COL_ID + "=?", new String[]{String.valueOf(trip.getId())});
+    }
+
+    public Trip getTripById(long tripId) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.query(TABLE_TRIPS, null, COL_ID + "=?",
+                new String[]{String.valueOf(tripId)}, null, null, null);
+        Trip trip = null;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                trip = mapCursorToTrip(cursor);
+            }
+            cursor.close();
+        }
+        return trip;
+    }
+
+    public int updateAvailablePlaces(long tripId, int newAvailablePlaces) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_AVAILABLE_PLACES, newAvailablePlaces);
+        return db.update(TABLE_TRIPS, values, COL_ID + "=?",
+                new String[]{String.valueOf(tripId)});
     }
 
     public int deleteTrip(long tripId) {
@@ -178,6 +205,50 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
     public long insertBooking(long tripId, String username, String name,
                               String phone, int seats, String date) {
         SQLiteDatabase db = getWritableDatabase();
+        return insertBooking(db, tripId, username, name, phone, seats, date);
+    }
+
+    /**
+     * Réservation transactionnelle :
+     * - vérifie les places disponibles
+     * - décrémente automatiquement available_places
+     * - insère la réservation en base
+     */
+    public long bookTrip(long tripId, String username, String name,
+                         String phone, int seats, String date) {
+        if (seats <= 0) return -1;
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+            Trip trip = getTripByIdInternal(db, tripId);
+            if (trip == null || trip.getAvailablePlaces() < seats) {
+                return -1;
+            }
+
+            int newAvailablePlaces = trip.getAvailablePlaces() - seats;
+            ContentValues values = new ContentValues();
+            values.put(COL_AVAILABLE_PLACES, newAvailablePlaces);
+            int updatedRows = db.update(TABLE_TRIPS, values, COL_ID + "=?",
+                    new String[]{String.valueOf(tripId)});
+
+            if (updatedRows <= 0) {
+                return -1;
+            }
+
+            long bookingId = insertBooking(db, tripId, username, name, phone, seats, date);
+            if (bookingId <= 0) {
+                return -1;
+            }
+
+            db.setTransactionSuccessful();
+            return bookingId;
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    private long insertBooking(SQLiteDatabase db, long tripId, String username, String name,
+                               String phone, int seats, String date) {
         ContentValues values = new ContentValues();
         values.put(COL_BOOKING_TRIP_ID,  tripId);
         values.put(COL_BOOKING_USERNAME, username);
@@ -264,12 +335,26 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_DEPART,       trip.getDepart());
         values.put(COL_DESTINATION,  trip.getDestination());
         values.put(COL_DATE,         trip.getDate());
-        values.put(COL_PLACES,       trip.getPlaces());
+        values.put(COL_TOTAL_PLACES, trip.getTotalPlaces());
+        values.put(COL_AVAILABLE_PLACES, trip.getAvailablePlaces());
         values.put(COL_PRIX,         trip.getPrix());
         values.put(COL_PHONE,        trip.getPhone());
         values.put(COL_VEHICLE_TYPE, trip.getVehicleType());
         values.put(COL_USER_TYPE,    trip.getUserType());
         return values;
+    }
+
+    private Trip getTripByIdInternal(SQLiteDatabase db, long tripId) {
+        Cursor cursor = db.query(TABLE_TRIPS, null, COL_ID + "=?",
+                new String[]{String.valueOf(tripId)}, null, null, null);
+        Trip trip = null;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                trip = mapCursorToTrip(cursor);
+            }
+            cursor.close();
+        }
+        return trip;
     }
 
     private Trip mapCursorToTrip(Cursor cursor) {
@@ -278,7 +363,8 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
                 cursor.getString(cursor.getColumnIndexOrThrow(COL_DEPART)),
                 cursor.getString(cursor.getColumnIndexOrThrow(COL_DESTINATION)),
                 cursor.getString(cursor.getColumnIndexOrThrow(COL_DATE)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(COL_PLACES)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(COL_TOTAL_PLACES)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(COL_AVAILABLE_PLACES)),
                 cursor.getDouble(cursor.getColumnIndexOrThrow(COL_PRIX)),
                 cursor.getString(cursor.getColumnIndexOrThrow(COL_PHONE)),
                 cursor.getString(cursor.getColumnIndexOrThrow(COL_VEHICLE_TYPE)),

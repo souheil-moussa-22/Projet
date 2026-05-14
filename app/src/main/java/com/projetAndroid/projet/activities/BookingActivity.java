@@ -24,6 +24,7 @@ public class BookingActivity extends AppCompatActivity {
 
     public static final String EXTRA_TRIP = "extra_trip";
     public static final String EXTRA_CONFIRMATION = "extra_confirmation";
+    public static final String EXTRA_UPDATED_TRIP = "extra_updated_trip";
 
     private Trip trip;
     private TripDatabaseHelper dbHelper;
@@ -52,30 +53,59 @@ public class BookingActivity extends AppCompatActivity {
             return;
         }
 
+        Trip latestTrip = dbHelper.getTripById(trip.getId());
+        if (latestTrip != null) {
+            trip = latestTrip;
+        }
+
         TextView tvSummary       = findViewById(R.id.tvBookingSummary);
         EditText etPassengerName  = findViewById(R.id.etPassengerName);
         EditText etPassengerPhone = findViewById(R.id.etPassengerPhone);
         EditText etBookedSeats    = findViewById(R.id.etBookedSeats);
         Button btnConfirm         = findViewById(R.id.btnConfirmBooking);
 
-        tvSummary.setText(getString(R.string.booking_summary,
-                trip.getDepart(), trip.getDestination(), trip.getDate(), trip.getPlaces()));
+        updateSummary(tvSummary);
+        if (trip.getAvailablePlaces() == 0) {
+            btnConfirm.setEnabled(false);
+            Toast.makeText(this, R.string.trip_full, Toast.LENGTH_SHORT).show();
+        }
 
         btnConfirm.setOnClickListener(v -> {
             String passengerName  = etPassengerName.getText().toString().trim();
             String passengerPhone = etPassengerPhone.getText().toString().trim();
             String seatsText      = etBookedSeats.getText().toString().trim();
 
+            if (!ValidationUtils.isNotBlank(seatsText)) {
+                Toast.makeText(this, R.string.booking_empty_seats, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             if (!ValidationUtils.isNotBlank(passengerName)
-                    || !ValidationUtils.isValidPhone(passengerPhone)
-                    || !ValidationUtils.isPositiveInteger(seatsText)) {
+                    || !ValidationUtils.isValidPhone(passengerPhone)) {
                 Toast.makeText(this, R.string.booking_validation_error, Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            if (!ValidationUtils.isPositiveInteger(seatsText)) {
+                Toast.makeText(this, R.string.booking_invalid_seats, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Trip currentTrip = dbHelper.getTripById(trip.getId());
+            if (currentTrip != null) {
+                trip = currentTrip;
+                updateSummary(tvSummary);
+            }
+
+            if (trip.getAvailablePlaces() == 0) {
+                Toast.makeText(this, R.string.trip_full, Toast.LENGTH_SHORT).show();
+                btnConfirm.setEnabled(false);
+                return;
+            }
+
             int requestedSeats = Integer.parseInt(seatsText);
-            if (requestedSeats > trip.getPlaces()) {
-                Toast.makeText(this, R.string.booking_seats_error, Toast.LENGTH_SHORT).show();
+            if (requestedSeats > trip.getAvailablePlaces()) {
+                Toast.makeText(this, R.string.insufficient_places, Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -86,8 +116,8 @@ public class BookingActivity extends AppCompatActivity {
             // Username du passager connecté
             String username = new SessionManager(this).getUsername();
 
-            // Insertion en base de données
-            long id = dbHelper.insertBooking(
+            // Réservation + décrément automatique des places disponibles en base.
+            long id = dbHelper.bookTrip(
                     trip.getId(),
                     username,
                     passengerName,
@@ -97,15 +127,27 @@ public class BookingActivity extends AppCompatActivity {
             );
 
             if (id <= 0) {
-                Toast.makeText(this, "Erreur lors de la réservation", Toast.LENGTH_SHORT).show();
+                Trip latest = dbHelper.getTripById(trip.getId());
+                if (latest != null) {
+                    trip = latest;
+                    updateSummary(tvSummary);
+                }
+                Toast.makeText(this, R.string.insufficient_places, Toast.LENGTH_SHORT).show();
                 return;
+            }
+
+            Trip updatedTrip = dbHelper.getTripById(trip.getId());
+            if (updatedTrip != null) {
+                trip = updatedTrip;
             }
 
             String confirmation = getString(R.string.booking_confirmation,
                     passengerName, trip.getDepart(), trip.getDestination());
 
+            Toast.makeText(this, R.string.booking_success, Toast.LENGTH_SHORT).show();
             Intent data = new Intent();
             data.putExtra(EXTRA_CONFIRMATION, confirmation);
+            data.putExtra(EXTRA_UPDATED_TRIP, trip);
             setResult(RESULT_OK, data);
             finish();
         });
@@ -123,5 +165,13 @@ public class BookingActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+
+    private void updateSummary(TextView tvSummary) {
+        tvSummary.setText(getString(R.string.booking_summary,
+                trip.getDepart(),
+                trip.getDestination(),
+                trip.getDate(),
+                trip.getAvailablePlaces()));
     }
 }

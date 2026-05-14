@@ -28,6 +28,8 @@ public class TripDetailsActivity extends AppCompatActivity {
 
     private Trip trip;
     private TripDatabaseHelper dbHelper;
+    private Button btnReserve;
+    private boolean isConducteur;
 
     private final ActivityResultLauncher<Intent> bookingLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -59,7 +61,7 @@ public class TripDetailsActivity extends AppCompatActivity {
 
         bindTripData();
 
-        Button btnReserve   = findViewById(R.id.btnReserve);
+        btnReserve   = findViewById(R.id.btnReserve);
         Button btnOpenMaps  = findViewById(R.id.btnOpenMaps);
         Button btnShareTrip = findViewById(R.id.btnShareTrip);
         Button btnEditTrip  = findViewById(R.id.btnEditTrip);
@@ -67,7 +69,7 @@ public class TripDetailsActivity extends AppCompatActivity {
 
         // Récupérer le rôle de l'utilisateur connecté
         String userType = new SessionManager(this).getUserType();
-        boolean isConducteur = "Conducteur".equalsIgnoreCase(userType);
+        isConducteur = "Conducteur".equalsIgnoreCase(userType);
 
         if (isConducteur) {
             // Conducteur : peut modifier et supprimer, mais PAS réserver
@@ -80,6 +82,7 @@ public class TripDetailsActivity extends AppCompatActivity {
             btnEditTrip.setVisibility(View.GONE);
             btnDeleteTrip.setVisibility(View.GONE);
         }
+        updateReserveButtonState();
 
         btnReserve.setOnClickListener(v -> openBooking());
         btnOpenMaps.setOnClickListener(v -> openMaps());
@@ -96,7 +99,8 @@ public class TripDetailsActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.tvDetailDate)).setText(
                 getString(R.string.detail_date, trip.getDate()));
         ((TextView) findViewById(R.id.tvDetailPlaces)).setText(
-                getString(R.string.detail_places, trip.getPlaces()));
+                getString(R.string.detail_places_available,
+                        trip.getAvailablePlaces(), trip.getTotalPlaces()));
         ((TextView) findViewById(R.id.tvDetailPrice)).setText(
                 getString(R.string.detail_price,
                         String.format(Locale.getDefault(), "%.2f", trip.getPrix())));
@@ -109,6 +113,11 @@ public class TripDetailsActivity extends AppCompatActivity {
     }
 
     private void openBooking() {
+        if (trip.getAvailablePlaces() == 0) {
+            Toast.makeText(this, R.string.trip_full, Toast.LENGTH_SHORT).show();
+            updateReserveButtonState();
+            return;
+        }
         Intent intent = new Intent(this, BookingActivity.class);
         intent.putExtra(BookingActivity.EXTRA_TRIP, trip);
         bookingLauncher.launch(intent);
@@ -119,6 +128,9 @@ public class TripDetailsActivity extends AppCompatActivity {
             String confirmation = result.getData()
                     .getStringExtra(BookingActivity.EXTRA_CONFIRMATION);
             Toast.makeText(this, confirmation, Toast.LENGTH_LONG).show();
+            refreshTripFromDatabase();
+            bindTripData();
+            updateReserveButtonState();
         }
     }
 
@@ -144,7 +156,7 @@ public class TripDetailsActivity extends AppCompatActivity {
     private void shareTrip() {
         String text = getString(R.string.share_template,
                 trip.getDepart(), trip.getDestination(), trip.getDate(),
-                trip.getPlaces(),
+                trip.getAvailablePlaces(),
                 String.format(Locale.getDefault(), "%.2f", trip.getPrix()));
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
@@ -185,5 +197,19 @@ public class TripDetailsActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+
+    private void refreshTripFromDatabase() {
+        Trip latestTrip = dbHelper.getTripById(trip.getId());
+        if (latestTrip != null) {
+            trip = latestTrip;
+        }
+    }
+
+    private void updateReserveButtonState() {
+        if (btnReserve == null || isConducteur) return;
+        boolean isFull = trip.getAvailablePlaces() == 0;
+        btnReserve.setEnabled(!isFull);
+        btnReserve.setText(isFull ? R.string.trip_complete : R.string.reserve);
     }
 }

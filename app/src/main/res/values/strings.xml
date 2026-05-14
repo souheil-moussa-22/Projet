@@ -48,7 +48,7 @@
     <string name="detail_depart">Départ : %1$s</string>
     <string name="detail_destination">Destination : %1$s</string>
     <string name="detail_date">Date : %1$s</string>
-    <string name="detail_places">Places : %1$d</string>
+    <string name="detail_places_available">Places disponibles : %1$d / %2$d</string>
     <string name="detail_price">Prix : %1$s TND</string>
     <string name="detail_phone">Téléphone : %1$s</string>
     <string name="detail_vehicle">Véhicule : %1$s</string>
@@ -66,6 +66,13 @@
     <string name="booking_confirmation">Réservation confirmée pour %1$s (%2$s ➜ %3$s).</string>
     <string name="booking_validation_error">Vérifiez les informations de réservation.</string>
     <string name="booking_seats_error">Le nombre de places demandé dépasse les places disponibles.</string>
+    <string name="booking_empty_seats">Veuillez saisir le nombre de places à réserver.</string>
+    <string name="booking_invalid_seats">Le nombre de places doit être supérieur à 0.</string>
+    <string name="booking_success">Réservation effectuée avec succès.</string>
+    <string name="insufficient_places">Places insuffisantes.</string>
+    <string name="trip_full">Trajet complet.</string>
+    <string name="trip_complete">Complet</string>
+    <string name="item_places_available">Places : %1$d / %2$d</string>
     <string name="no_booking">Aucune réservation enregistrée.</string>
 
     <string name="delete_trip_title">Supprimer le trajet</string>
