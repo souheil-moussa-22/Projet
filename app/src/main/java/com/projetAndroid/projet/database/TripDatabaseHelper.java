@@ -166,6 +166,43 @@ public class TripDatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
+    public int getTotalAvailablePlacesCount() {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT COALESCE(SUM(" + COL_AVAILABLE_PLACES + "), 0) FROM " + TABLE_TRIPS,
+                null
+        );
+        int count = 0;
+        if (cursor.moveToFirst()) count = cursor.getInt(0);
+        cursor.close();
+        return count;
+    }
+
+    public int getBookingsCountByUser(String username) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT COUNT(*) FROM " + TABLE_BOOKINGS + " WHERE " + COL_BOOKING_USERNAME + "=?",
+                new String[]{username}
+        );
+        int count = 0;
+        if (cursor.moveToFirst()) count = cursor.getInt(0);
+        cursor.close();
+        return count;
+    }
+
+    public int getBookingsCountForDriver(String ownerUsername) {
+        SQLiteDatabase db = getReadableDatabase();
+        String query = "SELECT COUNT(*) FROM " + TABLE_BOOKINGS + " b"
+                + " INNER JOIN " + TABLE_TRIPS + " t"
+                + " ON b." + COL_BOOKING_TRIP_ID + " = t." + COL_ID
+                + " WHERE t." + COL_OWNER + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{ownerUsername});
+        int count = 0;
+        if (cursor.moveToFirst()) count = cursor.getInt(0);
+        cursor.close();
+        return count;
+    }
+
     // ─── Users ───────────────────────────────────────────────────────────────
 
     public boolean registerUser(String username, String password, String userType) {

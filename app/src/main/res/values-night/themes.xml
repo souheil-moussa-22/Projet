@@ -1,7 +1,17 @@
 <resources>
     <style name="Base.Theme.Projet" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">#90CAF9</item>
-        <item name="colorOnPrimary">#0D1B2A</item>
-        <item name="android:statusBarColor">#0D1B2A</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorOnPrimary">@color/backgroundColor</item>
+        <item name="colorPrimaryContainer">@color/primaryColorDark</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorOnSecondary">@color/backgroundColor</item>
+        <item name="colorSurface">@color/surfaceColor</item>
+        <item name="colorOnSurface">@color/textPrimary</item>
+        <item name="android:windowBackground">@color/backgroundColor</item>
+        <item name="android:statusBarColor">@color/backgroundColor</item>
+        <item name="android:navigationBarColor">@color/backgroundColor</item>
+        <item name="android:textColorPrimary">@color/textPrimary</item>
+        <item name="android:textColorSecondary">@color/textSecondary</item>
     </style>
 </resources>

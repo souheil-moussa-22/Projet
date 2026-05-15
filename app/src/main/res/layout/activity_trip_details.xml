@@ -3,115 +3,180 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/backgroundColor">
+    android:background="@color/backgroundColor"
+    android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarTripDetails"
+        style="@style/Widget.Projet.Toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/primaryColor"
-        app:title="@string/trip_details_title"
-        app:titleTextColor="@android:color/white" />
+        app:title="@string/trip_details_title" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="14dp">
 
-            <TextView
-                android:id="@+id/tvDetailDepart"
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Projet.ActionCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/tvDetailDepart"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@android:drawable/ic_menu_directions"
+                        android:drawablePadding="8dp"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvDetailDestination"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:drawableStart="@android:drawable/ic_menu_mylocation"
+                        android:drawablePadding="8dp"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tvDetailDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:drawableStart="@android:drawable/ic_menu_my_calendar"
+                        android:drawablePadding="8dp"
+                        android:textColor="@color/textSecondary" />
+
+                    <TextView
+                        android:id="@+id/tvDetailPlaces"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:drawableStart="@android:drawable/ic_menu_manage"
+                        android:drawablePadding="8dp"
+                        android:textColor="@color/textSecondary" />
+
+                    <TextView
+                        android:id="@+id/tvDetailPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:drawableStart="@android:drawable/ic_menu_info_details"
+                        android:drawablePadding="8dp"
+                        android:textColor="@color/primaryColorDark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvDetailPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:drawableStart="@android:drawable/sym_action_call"
+                        android:drawablePadding="8dp"
+                        android:textColor="@color/textSecondary" />
+
+                    <TextView
+                        android:id="@+id/tvDetailVehicle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:drawableStart="@android:drawable/ic_menu_compass"
+                        android:drawablePadding="8dp"
+                        android:textColor="@color/textSecondary" />
+
+                    <TextView
+                        android:id="@+id/tvDetailUserType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:drawableStart="@android:drawable/ic_menu_myplaces"
+                        android:drawablePadding="8dp"
+                        android:textColor="@color/textSecondary" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Projet.ActionCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp" />
+                android:layout_marginTop="12dp">
 
-            <TextView
-                android:id="@+id/tvDetailDestination"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-            <TextView
-                android:id="@+id/tvDetailDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnReserve"
+                        style="@style/Widget.Projet.PrimaryButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:icon="@android:drawable/ic_menu_agenda"
+                        android:text="@string/reserve"
+                        android:visibility="gone"
+                        app:iconGravity="textStart" />
 
-            <TextView
-                android:id="@+id/tvDetailPlaces"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnOpenMaps"
+                        style="@style/Widget.Projet.SecondaryButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:icon="@android:drawable/ic_menu_mylocation"
+                        android:text="@string/open_maps"
+                        app:iconGravity="textStart" />
 
-            <TextView
-                android:id="@+id/tvDetailPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnShareTrip"
+                        style="@style/Widget.Projet.SecondaryButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:icon="@android:drawable/ic_menu_share"
+                        android:text="@string/share_trip"
+                        app:iconGravity="textStart" />
 
-            <TextView
-                android:id="@+id/tvDetailPhone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnEditTrip"
+                        style="@style/Widget.Projet.SecondaryButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:icon="@android:drawable/ic_menu_edit"
+                        android:text="@string/edit"
+                        android:visibility="gone"
+                        app:iconGravity="textStart" />
 
-            <TextView
-                android:id="@+id/tvDetailVehicle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp" />
-
-            <TextView
-                android:id="@+id/tvDetailUserType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp" />
-
-            <!-- Passager uniquement -->
-            <Button
-                android:id="@+id/btnReserve"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/reserve"
-                android:visibility="gone" />
-
-            <!-- Tous les rôles -->
-            <Button
-                android:id="@+id/btnOpenMaps"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/open_maps"
-                android:layout_marginTop="8dp" />
-
-            <Button
-                android:id="@+id/btnShareTrip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/share_trip"
-                android:layout_marginTop="8dp" />
-
-            <!-- Conducteur uniquement -->
-            <Button
-                android:id="@+id/btnEditTrip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/edit"
-                android:layout_marginTop="8dp"
-                android:visibility="gone" />
-
-            <!-- Conducteur uniquement -->
-            <Button
-                android:id="@+id/btnDeleteTrip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/delete"
-                android:layout_marginTop="8dp"
-                android:visibility="gone" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDeleteTrip"
+                        style="@style/Widget.Projet.SecondaryButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:icon="@android:drawable/ic_menu_delete"
+                        android:text="@string/delete"
+                        android:visibility="gone"
+                        app:iconGravity="textStart" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
     </ScrollView>

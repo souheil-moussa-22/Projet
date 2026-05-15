@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
                 String userType = dbHelper.getUserType(username);
                 new SessionManager(this).saveSession(username, userType);
                 startActivity(new Intent(this, MainActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
             } else {
                 Toast.makeText(this, "Identifiants incorrects", Toast.LENGTH_SHORT).show();
@@ -51,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 
         tvGoRegister.setOnClickListener(v -> {
             startActivity(new Intent(this, RegisterActivity.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }
 }

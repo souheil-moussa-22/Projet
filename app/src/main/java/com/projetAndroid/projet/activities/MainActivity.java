@@ -24,6 +24,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private TripDatabaseHelper dbHelper;
     private TextView tvStats;
+    private TextView tvWelcomeUser;
+    private TextView tvTotalTripsValue;
+    private TextView tvAvailablePlacesValue;
+    private TextView tvMyBookingsValue;
+    private SessionManager session;
+    private boolean isConducteur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         dbHelper = new TripDatabaseHelper(this);
-        SessionManager session = new SessionManager(this);
+        session = new SessionManager(this);
         if (!session.isLoggedIn()) {
             redirectToLogin();
             return;
@@ -43,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.drawerLayout);
         NavigationView navigationView = findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
+        android.view.View header = navigationView.getHeaderView(0);
+        ((TextView) header.findViewById(R.id.tvDrawerTitle)).setText(session.getUsername());
+        ((TextView) header.findViewById(R.id.tvDrawerSubtitle)).setText(session.getUserType());
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar,
@@ -51,6 +60,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         tvStats = findViewById(R.id.tvMainStats);
+        tvWelcomeUser = findViewById(R.id.tvWelcomeUser);
+        tvTotalTripsValue = findViewById(R.id.tvTotalTripsValue);
+        tvAvailablePlacesValue = findViewById(R.id.tvAvailablePlacesValue);
+        tvMyBookingsValue = findViewById(R.id.tvMyBookingsValue);
+        tvWelcomeUser.setText(getString(R.string.welcome_user_message, session.getUsername()));
 
         Button btnAddTrip    = findViewById(R.id.btnAddTrip);
         Button btnListTrips  = findViewById(R.id.btnListTrips);
@@ -59,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Button btnLogout     = findViewById(R.id.btnLogout);
 
         String userType = session.getUserType();
-        boolean isConducteur = "Conducteur".equalsIgnoreCase(userType);
+        isConducteur = "Conducteur".equalsIgnoreCase(userType);
 
         if (isConducteur) {
             btnAddTrip.setVisibility(View.VISIBLE);
@@ -110,7 +124,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        tvStats.setText(getString(R.string.total_trips_label, dbHelper.getTotalTripsCount()));
+        int totalTrips = dbHelper.getTotalTripsCount();
+        int availablePlaces = dbHelper.getTotalAvailablePlacesCount();
+        int bookings = isConducteur
+                ? dbHelper.getBookingsCountForDriver(session.getUsername())
+                : dbHelper.getBookingsCountByUser(session.getUsername());
+
+        tvTotalTripsValue.setText(String.valueOf(totalTrips));
+        tvAvailablePlacesValue.setText(String.valueOf(availablePlaces));
+        tvMyBookingsValue.setText(String.valueOf(bookings));
+        tvStats.setText(getString(R.string.total_trips_label, totalTrips));
     }
 
     private void openAddTrip() {
