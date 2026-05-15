@@ -38,6 +38,7 @@ public class ListTripActivity extends AppCompatActivity implements TripAdapter.O
     private EditText etSearch;
     private Spinner spinnerFilterCity;
     private TextView tvEmpty;
+    private RecyclerView recyclerView;
     private boolean ownerOnly;
 
     @Override
@@ -65,7 +66,7 @@ public class ListTripActivity extends AppCompatActivity implements TripAdapter.O
         spinnerFilterCity = findViewById(R.id.spinnerFilterCity);
         tvEmpty           = findViewById(R.id.tvEmptyList);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerTrips);
+        recyclerView = findViewById(R.id.recyclerTrips);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new TripAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -145,6 +146,7 @@ public class ListTripActivity extends AppCompatActivity implements TripAdapter.O
         }
 
         adapter.submitList(filtered);
+        recyclerView.scheduleLayoutAnimation();
         tvEmpty.setVisibility(filtered.isEmpty() ? android.view.View.VISIBLE : android.view.View.GONE);
     }
 

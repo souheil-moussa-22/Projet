@@ -58,6 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
             if (dbHelper.registerUser(username, password, userType)) {
                 Toast.makeText(this, "Compte créé ! Connectez-vous.", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, LoginActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
             } else {
                 Toast.makeText(this, "Ce nom d'utilisateur existe déjà", Toast.LENGTH_SHORT).show();
@@ -66,6 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         tvGoLogin.setOnClickListener(v -> {
             startActivity(new Intent(this, LoginActivity.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
         });
     }

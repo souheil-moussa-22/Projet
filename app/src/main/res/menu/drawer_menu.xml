@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Conducteur uniquement -->
     <item
         android:id="@+id/nav_add_trip"
+        android:icon="@android:drawable/ic_menu_add"
         android:title="@string/add_trip"
         android:visible="false" />
 
-    <!-- Conducteur uniquement -->
     <item
         android:id="@+id/nav_my_trips"
+        android:icon="@android:drawable/ic_menu_my_calendar"
         android:title="@string/my_trips"
         android:visible="false" />
 
-    <!-- Passager uniquement -->
     <item
         android:id="@+id/nav_list_trips"
+        android:icon="@android:drawable/ic_menu_directions"
         android:title="@string/view_trips"
         android:visible="false" />
 
-    <!-- Les deux rôles -->
     <item
         android:id="@+id/nav_bookings"
+        android:icon="@android:drawable/ic_menu_agenda"
         android:title="@string/my_bookings" />
 
 </menu>

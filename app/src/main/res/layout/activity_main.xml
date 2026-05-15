@@ -10,83 +10,233 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbarMain"
+            style="@style/Widget.Projet.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/primaryColor"
-            app:title="@string/home_title"
-            app:titleTextColor="@android:color/white" />
+            app:title="@string/home_title" />
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="24dp"
-            android:background="@color/backgroundColor">
+            android:fillViewport="true">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/welcome_message"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="@color/primaryColor"
-                android:layout_marginBottom="12dp" />
+                android:orientation="vertical"
+                android:padding="18dp">
 
-            <TextView
-                android:id="@+id/tvMainStats"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/textSecondary"
-                android:layout_marginBottom="24dp" />
+                <TextView
+                    android:id="@+id/tvWelcomeUser"
+                    style="@style/Text.Projet.Heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp" />
 
-            <!-- Conducteur uniquement -->
-            <Button
-                android:id="@+id/btnAddTrip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/add_trip"
-                android:visibility="gone"
-                android:layout_marginBottom="12dp" />
+                <TextView
+                    style="@style/Text.Projet.Subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/home_subtitle" />
 
-            <!-- Conducteur uniquement -->
-            <Button
-                android:id="@+id/btnMyTrips"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/my_trips"
-                android:visibility="gone"
-                android:layout_marginBottom="12dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
 
-            <!-- Passager uniquement -->
-            <Button
-                android:id="@+id/btnListTrips"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/view_trips"
-                android:visibility="gone"
-                android:layout_marginBottom="12dp" />
+                    <com.google.android.material.card.MaterialCardView
+                        style="@style/Widget.Projet.ActionCard"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1">
 
-            <!-- Les deux rôles -->
-            <Button
-                android:id="@+id/btnMyBookings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/my_bookings"
-                android:visibility="gone" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="12dp">
 
-            <Button
-                android:id="@+id/btnLogout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/logout" />
+                            <TextView
+                                android:id="@+id/tvTotalTripsValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bg_stat_value"
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="4dp"
+                                android:text="0"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
 
-        </LinearLayout>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="@string/stat_total_trips"
+                                android:textColor="@color/textSecondary"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        style="@style/Widget.Projet.ActionCard"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="3dp"
+                        android:layout_weight="1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <TextView
+                                android:id="@+id/tvAvailablePlacesValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bg_stat_value"
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="4dp"
+                                android:text="0"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="@string/stat_available_places"
+                                android:textColor="@color/textSecondary"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        style="@style/Widget.Projet.ActionCard"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <TextView
+                                android:id="@+id/tvMyBookingsValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bg_stat_value"
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="4dp"
+                                android:text="0"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="@string/stat_my_bookings"
+                                android:textColor="@color/textSecondary"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvMainStats"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="13sp" />
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Projet.ActionCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnAddTrip"
+                            style="@style/Widget.Projet.PrimaryButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:icon="@android:drawable/ic_menu_add"
+                            android:text="@string/add_trip"
+                            android:visibility="gone"
+                            app:iconGravity="textStart" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnMyTrips"
+                            style="@style/Widget.Projet.SecondaryButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            app:icon="@android:drawable/ic_menu_my_calendar"
+                            android:text="@string/my_trips"
+                            android:visibility="gone"
+                            app:iconGravity="textStart" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnListTrips"
+                            style="@style/Widget.Projet.SecondaryButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            app:icon="@android:drawable/ic_menu_directions"
+                            android:text="@string/view_trips"
+                            android:visibility="gone"
+                            app:iconGravity="textStart" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnMyBookings"
+                            style="@style/Widget.Projet.SecondaryButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            app:icon="@android:drawable/ic_menu_agenda"
+                            android:text="@string/my_bookings"
+                            android:visibility="gone"
+                            app:iconGravity="textStart" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnLogout"
+                            style="@style/Widget.Projet.SecondaryButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            app:icon="@android:drawable/ic_lock_power_off"
+                            android:text="@string/logout"
+                            app:iconGravity="textStart" />
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -94,6 +244,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/surfaceColor"
+        app:headerLayout="@layout/drawer_header_main"
+        app:itemIconTint="@color/primaryColor"
+        app:itemTextColor="@color/textPrimary"
         app:menu="@menu/drawer_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

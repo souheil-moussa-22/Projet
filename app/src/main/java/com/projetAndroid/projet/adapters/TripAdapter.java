@@ -7,6 +7,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.projetAndroid.projet.R;
@@ -94,6 +95,10 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.TripViewHolder
             }
             tvPrix.setText(String.format(Locale.getDefault(), "%.2f TND", trip.getPrix()));
             tvBadge.setText(trip.getUserType());
+            int badgeBackground = "Conducteur".equalsIgnoreCase(trip.getUserType())
+                    ? R.drawable.bg_chip_conducteur
+                    : R.drawable.bg_chip_passager;
+            tvBadge.setBackground(ContextCompat.getDrawable(itemView.getContext(), badgeBackground));
 
             itemView.setOnClickListener(v -> listener.onTripClick(trip));
             btnEdit.setOnClickListener(v -> listener.onEditClick(trip));

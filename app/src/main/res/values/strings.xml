@@ -3,7 +3,12 @@
 
     <string name="home_title">Accueil</string>
     <string name="welcome_message">Bienvenue sur votre app de covoiturage</string>
+    <string name="welcome_user_message">Bienvenue, %1$s 👋</string>
+    <string name="home_subtitle">Organisez vos trajets et réservations en toute simplicité.</string>
     <string name="total_trips_label">Nombre total de trajets : %1$d</string>
+    <string name="stat_total_trips">Trajets publiés</string>
+    <string name="stat_available_places">Places disponibles</string>
+    <string name="stat_my_bookings">Mes réservations</string>
 
     <string name="add_trip">Ajouter un trajet</string>
     <string name="view_trips">Voir les trajets</string>
@@ -16,18 +21,34 @@
     <string name="trip_details_title">Détails du trajet</string>
     <string name="booking_title">Réservation</string>
 
+    <string name="login_title">Bon retour 👋</string>
+    <string name="login_subtitle">Connectez-vous pour gérer vos trajets de covoiturage.</string>
+    <string name="register_title">Créer un compte</string>
+    <string name="register_subtitle">Inscrivez-vous en quelques secondes pour démarrer.</string>
+    <string name="label_user_type">Vous êtes :</string>
+    <string name="go_register">Pas de compte ? Créer un compte</string>
+    <string name="go_login">Déjà un compte ? Se connecter</string>
+    <string name="login_action">Se connecter</string>
+    <string name="register_action">S&apos;inscrire</string>
+
     <string name="hint_depart">Ville de départ</string>
-    <string name="hint_destination">Ville d\'arrivée</string>
+    <string name="hint_destination">Ville d&apos;arrivée</string>
     <string name="hint_date">Date (JJ/MM/AAAA)</string>
     <string name="hint_price">Prix (TND)</string>
     <string name="hint_places">Nombre de places</string>
     <string name="hint_phone">Téléphone conducteur</string>
     <string name="hint_passenger_name">Nom du passager</string>
     <string name="hint_booked_seats">Nombre de places à réserver</string>
+    <string name="hint_username">Nom d&apos;utilisateur</string>
+    <string name="hint_password">Mot de passe</string>
+    <string name="hint_confirm_password">Confirmer mot de passe</string>
 
     <string name="conducteur">Conducteur</string>
     <string name="passager">Passager</string>
     <string name="save_trip">Enregistrer le trajet</string>
+    <string name="trip_section_route">Itinéraire</string>
+    <string name="trip_section_details">Détails du trajet</string>
+    <string name="trip_section_driver">Informations conducteur</string>
 
     <string name="error_required_fields">Tous les champs sont obligatoires.</string>
     <string name="error_invalid_date">Date invalide (format attendu : JJ/MM/AAAA).</string>
@@ -36,7 +57,7 @@
     <string name="error_invalid_phone">Téléphone invalide.</string>
 
     <string name="trip_added_success">Trajet enregistré avec succès.</string>
-    <string name="trip_add_failed">Erreur lors de l\'ajout du trajet.</string>
+    <string name="trip_add_failed">Erreur lors de l&apos;ajout du trajet.</string>
     <string name="trip_updated_success">Trajet modifié avec succès.</string>
     <string name="trip_update_failed">Erreur lors de la modification du trajet.</string>
     <string name="trip_deleted_success">Trajet supprimé.</string>
@@ -57,7 +78,7 @@
     <string name="reserve">Réserver</string>
     <string name="open_maps">Ouvrir Maps</string>
     <string name="share_trip">Partager trajet</string>
-    <string name="logout">Logout</string>
+    <string name="logout">Déconnexion</string>
 
     <string name="share_template">Trajet covoiturage : %1$s ➜ %2$s | Date : %3$s | Places : %4$d | Prix : %5$s TND</string>
 
@@ -86,6 +107,11 @@
 
     <string name="drawer_open">Ouvrir le menu</string>
     <string name="drawer_close">Fermer le menu</string>
+
+    <string name="icon_app">Icône application</string>
+    <string name="icon_user">Icône utilisateur</string>
+    <string name="icon_route">Icône trajet</string>
+    <string name="icon_location">Icône localisation</string>
 
     <string-array name="vehicle_types">
         <item>Citadine</item>
